@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -37,5 +38,12 @@ public class BeerController {
         headers.add("Location", "/api/v1/beer/" + savedBeer.getId().toString());
 
         return new ResponseEntity(savedBeer, headers, HttpStatus.CREATED);
+    }
+
+    @PutMapping("{beerId}")
+    public ResponseEntity updateBeer(@PathVariable("beerId") UUID id, @RequestBody Beer beer){
+        Beer updatedBeer = beerService.updateBeer(id, beer);
+
+        return new ResponseEntity(updatedBeer, HttpStatus.ACCEPTED);
     }
 }
